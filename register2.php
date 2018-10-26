@@ -89,7 +89,7 @@ if($showFormular) {
             <input type="submit" value="Register">
             <br><br><br>
             <a>Already a member?</a>
-            <a class="hov1" href="login2.php">Log in now </a></p>
+            <a class="hov1" href="login.php">Log in now </a></p>
         </form>
 
     </div>
