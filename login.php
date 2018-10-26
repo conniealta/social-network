@@ -6,3 +6,8 @@
  * Time: 09:24
  */
 echo ("hi");
+?>
+
+<html>
+<h2>HEYY</h2>
+</html>
