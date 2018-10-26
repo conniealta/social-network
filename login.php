@@ -6,11 +6,9 @@
  * Time: 09:24
  */
 echo ("hi");
-?>jj
-..
+?>
+
 <html>
   <h1>Hallo</h1>
 <h2>HEYY</h2>
-<h1>ko</h1>ddf,,mm
 </html>
-..
