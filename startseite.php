@@ -55,17 +55,17 @@ echo "Hallo User: ".$userid;
                 </li>
 
                 <li>
-                    <a href=".html">Über mich</a>
+                    <a href=".html">Feed</a>
                 </li>
                 <li>
-                    <a class="wi" href=".html">Impressum</a>
+                    <a class="wi" href=".html">Profil</a>
                 </li>
 
                 <li>
-                    <a class="wi" href=".html">Contact</a>
+                    <a class="wi" href=".html">Messages</a>
                 </li>
                 <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropbtn">Dropdown</a>
+                    <a href="javascript:void(0)" class="dropbtn">Benachrichtigungen</a>
                     <div class="dropdown-content">
                         <a href="#">Link 1</a>
                         <a href="#">Link 2</a>
