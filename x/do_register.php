@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-include('/Users/conniealta/PhpstormProjects/ss18blog/include.php');
+$pdo=new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de;dbname=u-ka034', 'ka034', 'zeeD6athoo',array('charset'=>'utf8'));
 
 if(isset($_POST["email"]) AND isset($_POST["passwort"]) AND isset($_POST["username"]))
 {
