@@ -13,10 +13,11 @@ else
 
 $pdo=new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de;dbname=u-ka034', 'ka034', 'zeeD6athoo',array('charset'=>'utf8'));
 
+$passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
 
-$statement = $pdo->prepare("SELECT * FROM list5 WHERE email=:email");
+$statement = $pdo->prepare("SELECT * FROM list5 WHERE email=:email AND passwort=:passwort");
 
-if($statement->execute(array('email'=>$email))) {
+if($statement->execute(array('email'=>$email, 'passwort' => $passwort_hash))) {
     if($user=$statement->fetch()) {
         if ($user !== false && password_verify($passwort, $user['passwort'])) {
             //echo "angemeldet";
@@ -34,13 +35,13 @@ else {
     die();
 }
 
-//"passwort" = das ist die Variable bei der Datenbak
+//"passwort" = das ist die Variable bei der Datenbank
 //":passwort" = das ist der Parameter, den wir im Formular eingegeben haben
-
-/*$passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
-
-$statement = $pdo->prepare("INSERT INTO list5 (email, passwort) VALUES (:email, :passwort)");
-$result = $statement->execute(array('email' => $email, 'passwort' => $passwort_hash));*/
+//
+//$passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
+//
+//$statement = $pdo->prepare("INSERT INTO list5 (email, passwort) VALUES (:email, :passwort)");
+//$result = $statement->execute(array('email' => $email, 'passwort' => $passwort_hash));
 
 /*if(isset($_GET['login'])) {
     $email = $_POST['email'];
