@@ -1,7 +1,10 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
+
+include('/Users/conniealta/PhpstormProjects/ss18blog/include.php');
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
