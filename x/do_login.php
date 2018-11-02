@@ -19,7 +19,7 @@ $statement = $pdo->prepare("SELECT * FROM list5 WHERE email=:email AND passwort=
 
 if($statement->execute(array('email'=>$email, 'passwort' => $passwort_hash))) {
     if($user=$statement->fetch()) {
-        if ($user !== false && password_verify($passwort, $user['passwort'])) {
+        if ($user !== false && password_verify($passwort_hash, $user['passwort'])) {
             //echo "angemeldet";
             $_SESSION["angemeldet"] = $user["id"];
             header('Location: index.php');
