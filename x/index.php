@@ -99,8 +99,8 @@ if(!isset($_SESSION["angemeldet"]))
     die();
 }
 else {
-    $userid = $_SESSION['angemeldet'];
-    echo "Hallo User: ".$userid;
+    $user = $_SESSION['angemeldet'];
+    echo "Hallo User: ".$user;
 }
 ?>
 
