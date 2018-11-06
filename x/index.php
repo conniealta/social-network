@@ -48,18 +48,6 @@ session_start();
 
 
 
-<?php
-
-if(!isset($_SESSION["angemeldet"]))
-{
-    echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
-    die();
-}
-else {
-    $userid = $_SESSION['angemeldet'];
-    echo "Hallo User: ".$userid;
-}
-?>
 
 
 
@@ -100,6 +88,21 @@ else {
 <div id="dritte">
     <a class="hov1" href="logout.php">Log out!</a>
 </div>
+
+
+
+<?php
+
+if(!isset($_SESSION["angemeldet"]))
+{
+    echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
+    die();
+}
+else {
+    $userid = $_SESSION['angemeldet'];
+    echo "Hallo User: ".$userid;
+}
+?>
 
 
 
