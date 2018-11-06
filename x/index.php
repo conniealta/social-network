@@ -104,6 +104,7 @@ else {
 }
 ?>
 
+<h1> Der Profil von '<?php echo $user; ?>'</h1>
 
 
 
