@@ -7,41 +7,11 @@ session_start();
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
-    <title> Blog </title>
+    <title> Mein Profil </title>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <style>
-        #box {
-            width:100px;
-            height:100px;
-            background-color: #e0a800;
-        }
 
-        #container {
-            height: 120px;
-            padding-left: 60px;
-            margin-top:30px;
-            background-color: #3b5998;
-        }
-
-        #container2 {
-            height: 300px;
-            padding-left: 30px;
-        }
-
-        body
-        {
-            margin: 0;
-            padding: 0;
-            background: url(images/blue.jpg);
-            background-size: contain;
-            font-family: sans-serif;
-            background-repeat: repeat;
-
-        }
-
-    </style>
 
 </head>
 <body>
@@ -84,8 +54,8 @@ session_start();
 </header>
 
 
-<div id="dritte">
-    <a class="hov1" href="logout.php">Log out!</a>
+<div id="zweite">
+    <a href="logout.php">Log out!</a>
 </div>
 
 
@@ -103,10 +73,10 @@ else {
 }
 ?>
 
-<h1> Der Profil von '<?php echo $user; ?>'</h1>
+<h1> Das Profil von '<?php echo $user; ?>'</h1>
 
 
-<h1 class="title"> Posts  </h1>
+<h1 class="title"> Meine Posts  </h1>
 <div id="dritte">
     <form action="do_post.php" method="post">
         <textarea name="content" rows="17" cols="70"> </textarea>
@@ -114,15 +84,41 @@ else {
     </form>
 </div>
 
-<br><br><br><br><br>
+
+<?php
+$pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
+
+
+
+$username = "";
+$isFollowing = False;
+if (isset($_GET['username'])) {
+$statement = $pdo->prepare("SELECT username FROM list5 WHERE username=:username', array(':username'=>$_GET['username]))" {
+
+$username = $pdo->prepare('SELECT username FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['username'];
+$userid = $pdo->prepare('SELECT id FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['id'];
+$followerid = Login::isLoggedIn();
+
+if (isset($_POST['follow'])) {
+
+    if ($userid != $followerid) {
+
+        if (!DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
+            DB::query('INSERT INTO followers VALUES (\'\', :userid, :followerid)', array(':userid' => $userid, ':followerid' => $followerid));
+        } else {
+            echo 'Already following!';
+        }
+        $isFollowing = True;
+    }
+}
+
+
+?>
 
 
 
 
 
-
-<div id="zweite">
-    <p> Warum ist die Schrift so klein...</p>
 
     <?php
 
@@ -155,17 +151,21 @@ else {
     }
 
     ?>
-</div>
-
-
-<br><br><br><br>
 
 
 
+<?php
+if ($userid != $followerid) {
+    if ($isFollowing) {
+        echo '<input type="submit" name="unfollow" value="Unfollow">';
+    } else {
+        echo '<input type="submit" name="follow" value="Follow">';
+    }
+}
+?>
 
 
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>
 

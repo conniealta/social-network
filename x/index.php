@@ -7,41 +7,11 @@ session_start();
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
-    <title> Blog </title>
+    <title> Feed </title>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <style>
-        #box {
-            width:100px;
-            height:100px;
-            background-color: #e0a800;
-        }
 
-        #container {
-            height: 120px;
-            padding-left: 60px;
-            margin-top:30px;
-            background-color: #3b5998;
-        }
-
-        #container2 {
-            height: 300px;
-            padding-left: 30px;
-        }
-
-        body
-        {
-            margin: 0;
-            padding: 0;
-            background: url(images/blue.jpg);
-            background-size: contain;
-            font-family: sans-serif;
-            background-repeat: repeat;
-
-        }
-
-    </style>
 
 </head>
 <body>
@@ -85,9 +55,9 @@ session_start();
 </header>
 
 
-<div id="dritte">
-    <a class="hov1" href="logout.php">Log out!</a>
-</div>
+
+    <a href="logout.php">Log out!</a>
+
 
 
 
@@ -104,27 +74,28 @@ else {
 }
 ?>
 
-<h1> Der Profil von '<?php echo $user; ?>'</h1>
+Das Profil von '<?php echo $user; ?>'
+
+
 
 
 
 <h1 class="title"> Feed  </h1>
-<div id="dritte">
+<div id="zweite">
     <form action="do_post.php" method="post">
         <textarea name="content" rows="17" cols="70"> </textarea>
         <input type="submit" value="Post" />
     </form>
 </div>
 
-<br><br><br><br><br>
 
 
 
 
 
 
-<div id="zweite">
-<p> Warum ist die Schrift so klein...</p>
+<div id="dritte">
+<p> Posts</p>
 
 <?php
 
@@ -157,44 +128,8 @@ if($statement->execute()) {
 }
 
 ?>
-</div>
 
 
-<br><br><br><br>
-
-
-
-<div id="container">
-    <div id="box">
-        Hey <3
-    </div>
-</div>
-
-<br>
-
-<button onclick="$('#box').show()" >einblenden</button>
-<button onclick="$('#box').hide()">ausblenden</button>
-
-<br><br><br><br><br><br><br><br><br><br>
-
-
-
-
-<br><br>
-
-<div id="container2">
-    <img src="images/k.jpg" alt="girl" width="300">
-</div>
-
-<br><br><br><br><br><br><br><br><br>
-
-<button onclick="$('img').show()">Bild anzeigen</button>
-<button onclick="$('img').hide()">Bild weg</button>
-<button onclick="$('img').attr('src','images/adv2.jpg')">Anderes Bild</button>
-<button onclick="$('img').attr('src','images/k.jpg')">Erstes Bild</button>
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>
 
