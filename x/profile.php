@@ -48,19 +48,6 @@ session_start();
 
 
 
-<?php
-
-if(!isset($_SESSION["angemeldet"]))
-{
-    echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
-    die();
-}
-else {
-    $userid = $_SESSION['angemeldet'];
-    echo "Hallo User: ".$userid;
-}
-?>
-
 
 
 
@@ -102,6 +89,21 @@ else {
 </div>
 
 
+
+<?php
+
+if(!isset($_SESSION["angemeldet"]))
+{
+    echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
+    die();
+}
+else {
+    $user = $_SESSION['angemeldet'];
+    echo "Hallo User: ".$user;
+}
+?>
+
+<h1> Der Profil von '<?php echo $user; ?>'</h1>
 
 
 <h1 class="title"> Posts  </h1>
