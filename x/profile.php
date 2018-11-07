@@ -74,6 +74,8 @@ session_start();
 
                     <h1> <?php echo $user; ?>'s Profil</h1>
 
+<p> Hallo!!! </p>
+
 
 
                     <?php
