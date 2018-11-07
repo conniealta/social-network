@@ -74,6 +74,8 @@ else {
 
 <h1> Das Profil von '<?php echo $user; ?>'</h1>
 
+<p> Hallo!!! </p>
+
 
 <h1 class="title"> Meine Posts  </h1>
 <div id="dritte">
