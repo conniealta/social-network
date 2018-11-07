@@ -88,6 +88,7 @@ else {
 
 <?php
 include('DB.php');
+$user = $_SESSION ['angemeldet'];
 
 
 $username = "";
@@ -97,11 +98,11 @@ if (DB::query('SELECT username FROM list5 WHERE username=:username', array(':use
 
 $username = $pdo->prepare('SELECT username FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['username'];
 $userid = $pdo->prepare('SELECT id FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['id'];
-$followerid = Login::isLoggedIn();
+
 
 if (isset($_POST['follow'])) {
 
-    if ($userid != $followerid) {
+    if ($followerid = $user) {
 
         if (!DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
             DB::query('INSERT INTO followers VALUES (\'\', :userid, :followerid)', array(':userid' => $userid, ':followerid' => $followerid));
@@ -114,7 +115,7 @@ if (isset($_POST['follow'])) {
 
  if (isset($_POST['unfollow'])) {
 
-                if ($userid != $followerid) {
+                if ($followerid = $user) {
 
                     if (DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
                         DB::query('DELETE FROM followers WHERE user_id=:userid AND follower_id=:followerid', array(':userid' => $userid, ':followerid' => $followerid));
@@ -133,7 +134,7 @@ if (isset($_POST['follow'])) {
 
 <form action="profile.php?username=<?php echo $username; ?>" method="post">
     <?php
-    if ($userid != $followerid) {
+    if ($followerid = $user) {
         if ($isFollowing) {
             echo '<input type="submit" name="unfollow" value="Unfollow">';
         } else {
