@@ -2,6 +2,7 @@
 session_start();
 ?>
 
+
 <!DOCTYPE html> <!-- das ist HTML 5 -->
 <html lang="de">
 <head>
@@ -14,11 +15,10 @@ session_start();
 
 
 </head>
+
+
+
 <body>
-
-
-
-
 
 
 <header>
@@ -34,7 +34,7 @@ session_start();
                 </li>
 
                 <li>
-                    <a href="profil.html">Profil </a>
+                    <a href="profile.php">Profil </a>
                 </li>
                 <li>
                     <a class="wi" href="messages.html">Messages</a>
@@ -57,7 +57,6 @@ session_start();
 <div id="zweite">
     <a href="logout.php">Log out!</a>
 </div>
-
 
 
 <?php
@@ -85,15 +84,16 @@ else {
 </div>
 
 
-<?php
-$pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
 
+
+<?php
+include('DB.php');
 
 
 $username = "";
 $isFollowing = False;
 if (isset($_GET['username'])) {
-$statement = $pdo->prepare("SELECT username FROM list5 WHERE username=:username', array(':username'=>$_GET['username]))" {
+if (DB::query('SELECT username FROM list5 WHERE username=:username', array(':username'=>$_GET['username']))) {
 
 $username = $pdo->prepare('SELECT username FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['username'];
 $userid = $pdo->prepare('SELECT id FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['id'];
@@ -112,9 +112,36 @@ if (isset($_POST['follow'])) {
     }
 }
 
+ if (isset($_POST['unfollow'])) {
+
+                if ($userid != $followerid) {
+
+                    if (DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
+                        DB::query('DELETE FROM followers WHERE user_id=:userid AND follower_id=:followerid', array(':userid' => $userid, ':followerid' => $followerid));
+                    }
+                    $isFollowing = False;
+                }
+            }
+            if (DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
+                //echo 'Already following!';
+                $isFollowing = True;
+            }
+
 
 ?>
 
+
+<form action="profile.php?username=<?php echo $username; ?>" method="post">
+    <?php
+    if ($userid != $followerid) {
+        if ($isFollowing) {
+            echo '<input type="submit" name="unfollow" value="Unfollow">';
+        } else {
+            echo '<input type="submit" name="follow" value="Follow">';
+        }
+    }
+    ?>
+</form>
 
 
 
@@ -125,7 +152,7 @@ if (isset($_POST['follow'])) {
     $content = $_POST["content"];
     echo $content;
 
-    $pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
+    include('DB.php');
 
     $statement = $pdo->prepare("SELECT * FROM blog WHERE id=:id AND content=:content ");
 
@@ -152,22 +179,5 @@ if (isset($_POST['follow'])) {
 
     ?>
 
-
-
-<?php
-if ($userid != $followerid) {
-    if ($isFollowing) {
-        echo '<input type="submit" name="unfollow" value="Unfollow">';
-    } else {
-        echo '<input type="submit" name="follow" value="Follow">';
-    }
-}
-?>
-
-
-
 </body>
 </html>
-
-
-
