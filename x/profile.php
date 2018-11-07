@@ -59,126 +59,108 @@ session_start();
 </div>
 
 
-<?php
+    <?php
 
-if(!isset($_SESSION["angemeldet"]))
-{
-    echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
-    die();
-}
-else {
-    $user = $_SESSION['angemeldet'];
-    echo "Hallo User: ".$user;
-}
-?>
+    if(!isset($_SESSION["angemeldet"]))
+    {
+        echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
+        die();
+    }
+    else {
+        $user = $_SESSION['angemeldet'];
+        echo "Hallo User: ".$user;
+    }
+    ?>
 
-<h1> Das Profil von '<?php echo $user; ?>'</h1>
+                    <h1> <?php echo $user; ?>'s Profil</h1>
+
+
+
+                    <?php
+                    session_start();
+                    if(isset($_POST["username"]) )
+                    {
+                        }
+                    else
+                    {
+                        echo"Keine Daten";
+                        die();
+                    }
+
+
+                    $user = "";
+                    $isFollowing = False;
+
+
+                    $pdo=new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de;dbname=u-ka034', 'ka034', 'zeeD6athoo',array('charset'=>'utf8'));
+
+                    if (   $statement = $pdo->prepare("SELECT username FROM list5 WHERE username=:username")){
+
+                                if($statement->execute(array(':username'=>$user))) {
+                                if($user=$statement->fetch()) {
+                                    $_SESSION["angemeldet"] = $user["username"];}
+
+                                    $user = $_SESSION['angemeldet'];
+
+                                    $userid = $pdo->prepare("SELECT id FROM list5 WHERE username=:username"); array(':username' => $_GET['username']);
+                                    $followerid =$userid;
+
+
+                                }else{
+                                echo 'Benutzer konnte nicht gefunden werden!';
+                                }
+
+
+                    if ($userid != $followerid) {
+                        if ($isFollowing) {
+                            echo '<input type="submit" name="unfollow" value="Unfollow">';
+                        } else {
+                            echo '<input type="submit" name="follow" value="Follow">';
+                        }
+                    }
+                    ?>
 
 
 <h1 class="title"> Meine Posts  </h1>
 <div id="dritte">
-    <form action="do_post.php" method="post">
+    <form action="do_post_profile.php" method="post">
         <textarea name="content" rows="17" cols="70"> </textarea>
         <input type="submit" value="Post" />
     </form>
 </div>
 
 
+        <?php
 
+        $content = $_POST["content"];
+        echo $content;
 
-<?php
-include('DB.php');
-$user = $_SESSION ['angemeldet'];
+        $pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
 
+        $statement = $pdo->prepare("SELECT * FROM blog ");
 
-$username = "";
-$isFollowing = False;
-if (isset($_GET['username'])) {
-if (DB::query('SELECT username FROM list5 WHERE username=:username', array(':username'=>$_GET['username']))) {
+        if($statement->execute(array(':id'=>$user, ':content'=>$content))) {
+            while($row=$statement->fetch()) {
 
-$username = $pdo->prepare('SELECT username FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['username'];
-$userid = $pdo->prepare('SELECT id FROM list5 WHERE username=:username', array(':username' => $_GET['username']))[0]['id'];
+                echo $row['id']." ".$row['content'];
+                echo "<br>";
 
+                echo "<tr>";
+                echo "<td>$row->id </td>";
+                echo "<td>$row->content</td>";
+                echo "</tr>";
+                echo "<br>";
 
-if (isset($_POST['follow'])) {
-
-    if ($followerid = $user) {
-
-        if (!DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
-            DB::query('INSERT INTO followers VALUES (\'\', :userid, :followerid)', array(':userid' => $userid, ':followerid' => $followerid));
-        } else {
-            echo 'Already following!';
-        }
-        $isFollowing = True;
-    }
-}
-
- if (isset($_POST['unfollow'])) {
-
-                if ($followerid = $user) {
-
-                    if (DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
-                        DB::query('DELETE FROM followers WHERE user_id=:userid AND follower_id=:followerid', array(':userid' => $userid, ':followerid' => $followerid));
-                    }
-                    $isFollowing = False;
-                }
             }
-            if (DB::query('SELECT follower_id FROM followers WHERE user_id=:userid', array(':userid' => $userid))) {
-                //echo 'Already following!';
-                $isFollowing = True;
-            }
-
-
-?>
-
-
-<form action="profile.php?username=<?php echo $username; ?>" method="post">
-    <?php
-    if ($followerid = $user) {
-        if ($isFollowing) {
-            echo '<input type="submit" name="unfollow" value="Unfollow">';
         } else {
-            echo '<input type="submit" name="follow" value="Follow">';
-        }
-    }
-    ?>
-</form>
-
-
-
-
-
-    <?php
-
-    $content = $_POST["content"];
-    echo $content;
-
-    include('DB.php');
-
-    $statement = $pdo->prepare("SELECT * FROM blog WHERE id=:id AND content=:content ");
-
-    if($statement->execute(array(':id'=>$userid, ':content'=>$content))) {
-        while($row=$statement->fetch()) {
-
-            echo $row['id']." ".$row['content'];
-            echo "<br>";
-
-            echo "<tr>";
-            echo "<td>$row->id </td>";
-            echo "<td>$row->content</td>";
-            echo "</tr>";
-            echo "<br>";
+            echo "Datenbank-Fehler:";
+            echo $statement->errorInfo()[2];
+            echo $statement->queryString;
+            die();
 
         }
-    } else {
-        echo "Datenbank-Fehler:";
-        echo $statement->errorInfo()[2];
-        echo $statement->queryString;
-        die();
 
-    }
-
-    ?>
+        ?>
 
 </body>
 </html>
