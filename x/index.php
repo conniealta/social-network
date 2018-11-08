@@ -14,12 +14,8 @@ session_start();
 
 
 </head>
+
 <body>
-
-
-
-
-
 
 
 <header>
@@ -54,9 +50,9 @@ session_start();
     </nav>
 </header>
 
+<br><br><br><br>
 
-
-    <a href="logout.php">Log out!</a>
+<a href="logout.php">Log out!</a>
 
 
 
@@ -74,7 +70,8 @@ else {
 }
 ?>
 
-Das Profil von '<?php echo $user; ?>'
+
+<h1> Das Profil von '<?php echo $user; ?>'</h1>
 
 
 
@@ -91,46 +88,42 @@ Das Profil von '<?php echo $user; ?>'
 
 
 
-
-
-
 <div id="dritte">
-<p> Posts</p>
+    <p> Posts</p>
 
-<?php
+    <?php
 
-$content = $_POST["content"];
-echo $content;
+    $content = $_POST["content"];
+    echo $content;
 
-$pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
-$statement = $pdo->prepare("SELECT * FROM blog");
+    $pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
 
-if($statement->execute()) {
-    while($row=$statement->fetch()) {
+    $statement = $pdo->prepare("SELECT * FROM blog");
 
-        echo $row['id']." ".$row['content'];
-        echo "<br>";
+    if($statement->execute()) {
+        while($row=$statement->fetch()) {
 
-        echo "<tr>";
-        echo "<td>$row->id </td>";
-        echo "<td>$row->content</td>";
-        echo "</tr>";
-        echo "<br>";
+            echo $row['id']." ".$row['content'];
+            echo "<br>";
+
+            echo "<tr>";
+            echo "<td>$row->id </td>";
+            echo "<td>$row->content</td>";
+            echo "</tr>";
+            echo "<br>";
+
+        }
+    } else {
+        echo "Datenbank-Fehler:";
+        echo $statement->errorInfo()[2];
+        echo $statement->queryString;
+        die();
 
     }
-} else {
-    echo "Datenbank-Fehler:";
-    echo $statement->errorInfo()[2];
-    echo $statement->queryString;
-    die();
 
-}
-
-?>
-
+    ?>
+</div>
 
 </body>
 </html>
-
-
 
