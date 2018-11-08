@@ -18,7 +18,7 @@ $statement = $pdo->prepare("SELECT * FROM list5 WHERE email=:email AND passwort=
 if($statement->execute(array(':email'=>$email, ':passwort'=>$passwort))) {
     if($user=$statement->fetch()) {
         //echo "angemeldet";
-        $_SESSION["angemeldet"]=$user["username"];
+        $_SESSION["angemeldet"]=$user["id"];
         header('Location: index.php');
     }
     else
