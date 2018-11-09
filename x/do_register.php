@@ -44,7 +44,7 @@ if(isset($_POST["email"]) AND isset($_POST["passwort"])AND isset($_POST["usernam
     //Überprüfe, dass die E-Mail-Adresse noch nicht registriert wurde
     if(!$error) {
         $statement = $pdo->prepare("SELECT * FROM list5 WHERE email = :email");
-        $result = $statement->execute(array('email' => $email));
+        $result = $statement->execute(array(':email' => $email));
         $user = $statement->fetch();
 
         if($user !== false) {
@@ -56,7 +56,7 @@ if(isset($_POST["email"]) AND isset($_POST["passwort"])AND isset($_POST["usernam
     //Überprüfe, dass der Username noch nicht registriert wurde
     if(!$error) {
         $statement = $pdo->prepare("SELECT * FROM list5 WHERE username = :username");
-        $result = $statement->execute(array('username' => $username));
+        $result = $statement->execute(array(':username' => $username));
         $user = $statement->fetch();
 
         if($user !== false) {
@@ -67,10 +67,12 @@ if(isset($_POST["email"]) AND isset($_POST["passwort"])AND isset($_POST["usernam
 
     //Keine Fehler, wir können den Nutzer registrieren
     if(!$error) {
+        echo $passwort;
         $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
 
         $statement = $pdo->prepare("INSERT INTO list5 (username, email, passwort) VALUES (:username, :email, :passwort)");
-        $result = $statement->execute(array('username' => $username, 'email' => $email, 'passwort' => $passwort_hash));
+        echo $passwort_hash;
+        $result = $statement->execute(array(':username' => $username, ':email' => $email, ':passwort'=> hash('sha256', $passwort, false)));
 
         if($result) {
             echo 'Du wurdest erfolgreich registriert. <a href="login.html">Zum Login</a>';
