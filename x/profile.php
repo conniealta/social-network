@@ -78,8 +78,6 @@ else {
 ?>
 
 
-<h1> Das Profil von '<?php echo $userid2; ?>'</h1>
-
 
 
 
