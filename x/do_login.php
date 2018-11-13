@@ -13,24 +13,27 @@ else
 
 $pdo=new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de;dbname=u-ka034', 'ka034', 'zeeD6athoo',array('charset'=>'utf8'));
 
+
+echo $passwort;
 $statement = $pdo->prepare("SELECT * FROM list5 WHERE email=:email AND passwort=:passwort");
 
-if($statement->execute(array(':email'=>$email, ':passwort'=>$passwort))) {
+if($statement->execute(array(':email'=>$email, ':passwort'=> hash('sha256', $passwort, false)))) {
     if($user=$statement->fetch()) {
-        //echo "angemeldet";
-        $_SESSION["angemeldet"]=$user["username"];
+        echo "geklappt";
+        $_SESSION["angemeldet"] = $user["id"];
         header('Location: index.php');
+    } else {
+        echo "nicht berechtigt";
     }
-    else
-    {
-        echo"nicht berechtigt";
-    }
-} else {
+}
+else {
     echo "Datenbank-Fehler:";
     echo $statement->errorInfo()[2];
     echo $statement->queryString;
     die();
+
 }
+
 
 
 
