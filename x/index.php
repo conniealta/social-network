@@ -93,7 +93,7 @@ else {
 $followingposts = DB::query('SELECT posts.body, posts.likes, list5.username FROM list5, posts, followers 
                                     WHERE posts.user_id = followers.user_id 
                                     AND list5.id = posts.user_id 
-                                    AND follower_id = 19
+                                    AND follower_id = 20
                                     ORDER BY posts.likes DESC');
 
 foreach ($followingposts as $post) {
