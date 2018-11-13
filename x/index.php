@@ -58,7 +58,7 @@ session_start();
 
 
 <?php
-
+include('DB.php');
 $showTimeline = False;
 
 if(!isset($_SESSION["angemeldet"]))
