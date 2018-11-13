@@ -67,15 +67,15 @@ if(isset($_POST["email"]) AND isset($_POST["passwort"])AND isset($_POST["usernam
 
     //Keine Fehler, wir können den Nutzer registrieren
     if(!$error) {
-        echo $passwort;
+
         $passwort_hash = password_hash($passwort, PASSWORD_DEFAULT);
 
         $statement = $pdo->prepare("INSERT INTO list5 (username, email, passwort) VALUES (:username, :email, :passwort)");
-        echo $passwort_hash;
+
         $result = $statement->execute(array(':username' => $username, ':email' => $email, ':passwort'=> hash('sha256', $passwort, false)));
 
         if($result) {
-            echo 'Du wurdest erfolgreich registriert. <a href="login2.html">Zum Login</a>';
+            echo 'Du wurdest erfolgreich registriert. <a href="login.html">Zum Login</a>';
         }
         else {
             echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
