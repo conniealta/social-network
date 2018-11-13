@@ -71,12 +71,26 @@ else {
     echo "Hallo User: ".$user;
     $showTimeline = True;
 }
+
+$followingposts = DB::query('SELECT posts.body, posts.likes, list5.username FROM list5, posts, followers 
+                                    WHERE posts.user_id = followers.user_id 
+                                    AND list5.id = posts.user_id 
+                                    AND follower_id = 19
+                                    ORDER BY posts.likes DESC');
+
+foreach ($followingposts as $post) {
+    echo $post['body']."~~~".$post['username']."<hr />";
+}
+
+
 ?>
 
 
 <h1> Das Profil von '<?php echo $user; ?>'</h1>
 
 
+
+Joints
 
 
 
