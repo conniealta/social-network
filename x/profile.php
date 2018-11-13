@@ -163,6 +163,7 @@ if (isset($_GET['username'])) {
         else {
             die('Falscher Benutzer!');
         }
+
     }
 
     if (isset($_GET['postid'])) {
