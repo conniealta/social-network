@@ -166,11 +166,11 @@ if (isset($_GET['username'])) {
 
     if (isset($_GET['postid'])) {
         if (!DB::query('SELECT user_id FROM post_likes WHERE post_id=:postid AND user_id=:userid', array(':postid'=>$_GET['postid'], ':userid'=>$followerid))) {
-            //wenn das nicht der Fall ist: der Benutzer hat den Post bereits geliked, dann wird der Code ausgeführt:
-            DB::query('UPDATE posts SET likes=likes+1 WHERE id=:postid', array(':postid' => $_GET['postid']));
-            //wo die Post-"id" in der Datenbank gleich die ":postid" ist, die dem URL übergeben wird, wenn man auf den Like-Button klickt
-            DB::query('INSERT INTO post_likes VALUES (\'\',:postid, :userid)', array(':postid' => $_GET['postid'], ':userid' => $followerid));
-            //das zeigt welcher Benutzer den Post geliked hat und ob die eingeloggte Person (followerid) den Post geliked hat
+            //wenn folgendes nicht der Fall ist: der Benutzer hat den Post bereits geliked, dann wird der Code ausgeführt:
+                DB::query('UPDATE posts SET likes=likes+1 WHERE id=:postid', array(':postid' => $_GET['postid']));
+                //wo die Post-"id" in der Datenbank gleich die ":postid" ist, die dem URL übergeben wird, wenn man auf den Like-Button klickt
+                DB::query('INSERT INTO post_likes VALUES (\'\',:postid, :userid)', array(':postid' => $_GET['postid'], ':userid' => $followerid));
+                //das zeigt ob die eingeloggte Person (followerid) den Post geliked hat
         }
         else {
             echo 'Already liked';

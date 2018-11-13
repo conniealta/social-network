@@ -59,6 +59,8 @@ session_start();
 
 <?php
 
+$showTimeline = False;
+
 if(!isset($_SESSION["angemeldet"]))
 {
     echo"Bitte zuerst <a href=\"login.html\">einloggen</a>";
@@ -67,6 +69,7 @@ if(!isset($_SESSION["angemeldet"]))
 else {
     $user = $_SESSION['angemeldet'];
     echo "Hallo User: ".$user;
+    $showTimeline = True;
 }
 ?>
 
