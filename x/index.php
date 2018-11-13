@@ -97,10 +97,13 @@ $followingposts = DB::query('SELECT posts.body, posts.likes, list5.username FROM
                                     ORDER BY posts.likes DESC');
 
 foreach ($followingposts as $post) {
-    echo $post['body']."~~~".$post['username']."<hr />";
+    echo $post['body']."~ ".$post['username']."<hr />";
 }
 
-//joints
+/* joints -> WHERE posts.user_id = followers.user_id
+= zusammenfügen, wo die "id" der Person, deren Post angezeigt werden soll, mit der "id" der Person übereinstimmt, der von der eingeloggten Person gefolgt ist
+*/
+
 ?>
 
 
