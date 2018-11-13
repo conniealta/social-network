@@ -1,0 +1,240 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    background: url(blue.jpg);
+    background-size: contain;
+    font-family: sans-serif;
+    background-repeat: repeat;
+
+}
+.loginBox
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    height: 520px;
+    padding: 80px 40px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,.5);
+}
+.user
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: calc(-100px/2);
+    left: calc(50% - 50px);
+}
+h2
+{
+    margin: 0;
+    padding: 0 0 20px;
+    color: #efed40;
+    text-align: center;
+}
+.loginBox p
+{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #fff;
+}
+.loginBox input
+{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.loginBox input[type="text"],
+.loginBox input[type="password"]
+{
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #efed40;
+    font-size: 16px;
+}
+::placeholder
+{
+    color: rgba(255,255,255,.5);
+}
+.loginBox input[type="submit"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    background: #ff267e;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.loginBox input[type="submit"]:hover
+{
+    background: #efed40;
+    color: #262626;
+}
+.loginBox a
+{
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+.hov1:hover {
+    border-color: #d33f8d;
+    text-decoration: underline;
+    font-size:14px;
+    color: #f1b0b7;
+}
+
+.title {
+    color:#ff267e;
+    font-size: 80px;
+    text-align: center;
+    font-family:"blogschrift";
+}
+
+textarea {
+    text-align: center;
+}
+
+
+
+
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position:fixed;
+    top: 0;
+    width:100%;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: fixed;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+li a:hover{
+    background-color: #111;
+}
+
+.active {
+    background-color:#3875d7;
+}
+
+.active:hover {
+    background-color: #111;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+
+
+
+
+
+h1 {
+    text-align: center;
+}
+
+
+
+@media screen and (max-width: 500px) {
+    ul {
+        background-color: #e0a800;
+    }
+    li a {
+        color: red;
+    }
+
+}
+
+img {
+    float: left;
+
+}
+
+
+#erste {
+    width: 100%;
+    padding-bottom: 2%;
+}
+
+#zweite {
+    width: 100%;
+    padding-left:100px;
+    padding-top: 10px;
+    font-family:"blogschrift";
+    font-size: 100%;
+}
+
+#dritte {
+    padding-top:100px;
+    padding-left: 500px;
+}
+
+#viert {
+    width:100px;
+    padding-left:600px;
+    padding-top:10px;
+}
+
+
+
+@font-face {
+    font-family:"blogschrift";
+    src: url("AnnieUseYourTelescope-Regular.ttf") format("truetype");
+}
+
+
