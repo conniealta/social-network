@@ -59,6 +59,9 @@ session_start();
 
 <?php
 include('DB.php');
+include('Post.php');
+include('Comment.php');
+
 $showTimeline = False;
 
 if(!isset($_SESSION["angemeldet"]))
@@ -67,14 +70,15 @@ if(!isset($_SESSION["angemeldet"]))
     die();
 }
 else {
-    $user = $_SESSION['angemeldet'];
-    echo "Hallo User: ".$user;
+    $user_loggedin = $_SESSION['angemeldet'];
+    echo "Hallo User: ".$user_loggedin;
     $showTimeline = True;
 }
 ?>
 
 
-<h1> Das Profil von '<?php echo $user; ?>'</h1>
+
+<h1> Das Profil von '<?php echo $user_loggedin; ?>'</h1>
 
 
 
@@ -90,14 +94,54 @@ else {
 
 
 <?php
-$followingposts = DB::query('SELECT posts.body, posts.likes, list5.username FROM list5, posts, followers 
-                                    WHERE posts.user_id = followers.user_id 
-                                    AND list5.id = posts.user_id 
-                                    AND follower_id = 20
-                                    ORDER BY posts.likes DESC');
+
+if (isset($_GET['postid'])) {
+    Post::likePost($_GET['postid'], $user_loggedin); //wir ändern '$followerid' zu '$user_loggedin', weil in dieser Datei die Variable einfach umbenannt wurde
+}
+
+if (isset($_POST['comment'])) {
+    Comment::createComment($_POST['commentbody'], $_GET['postid'], $user_loggedin); //wir ändern '$followerid' zu '$user_loggedin', weil in dieser Datei die Variable einfach umbenannt wurde
+}
+
+
+
+$followingposts = DB::query('SELECT posts.id, posts.body, posts.likes, list5.username FROM list5, posts, followers 
+                             WHERE posts.user_id = followers.user_id 
+                             AND list5.id = posts.user_id 
+                             AND follower_id = :userid
+                             ORDER BY posts.likes DESC;', array(':userid'=>$user_loggedin));
+
 
 foreach ($followingposts as $post) {
-    echo $post['body']."~ ".$post['username']."<hr />";
+
+    echo $post['body'] . "~ " . $post['username'];
+    echo "<form action='index.php?postid=" . $post['id'] . "' method='post'>";
+
+    if (!DB::query('SELECT post_id FROM post_likes WHERE post_id=:postid AND user_id=:userid', array(':postid' => $post['id'], ':userid' => $user_loggedin))) {
+        /*damit überprüfen wir, ob der Post durch die eingeloggte Person schon geliked wurde
+          wenn die eingeloggte Person den Post noch nicht geliked hat, wird dieses Formular angezeigt: */
+
+        echo "<input type='submit' name='like' value='Like'>";
+    }else {
+        echo "<input type='submit' name='unlike' value='Unlike'>";
+
+    }
+    echo "<span>" . $post['likes'] . " likes</span>
+              </form>
+              
+              
+         
+              <form action='index.php?postid=".$post['id']." 'method='post'>
+              <textarea name='commentbody' rows='3' cols='50'></textarea>
+              <input type='submit' name='comment' value='Kommentieren'>
+              </form>
+              ";
+    Comment::displayComments($post['id']);
+
+    echo" 
+
+              <hr /></br />";
+
 }
 
 /* joints -> WHERE posts.user_id = followers.user_id
@@ -108,42 +152,7 @@ foreach ($followingposts as $post) {
 
 
 
-<div id="dritte">
-    <p> Posts</p>
 
-    <?php
-
-    $content = $_POST["content"];
-    echo $content;
-
-    $pdo = new PDO('mysql:: host=mars.iuk.hdm-stuttgart.de; dbname=u-ka034', 'ka034', 'zeeD6athoo', array('charset' => 'utf8'));
-
-    $statement = $pdo->prepare("SELECT * FROM blog");
-
-    if($statement->execute()) {
-        while($row=$statement->fetch()) {
-
-            echo $row['id']." ".$row['content'];
-            echo "<br>";
-
-            echo "<tr>";
-            echo "<td>$row->id </td>";
-            echo "<td>$row->content</td>";
-            echo "</tr>";
-            echo "<br>";
-
-        }
-    } else {
-        echo "Datenbank-Fehler:";
-        echo $statement->errorInfo()[2];
-        echo $statement->queryString;
-        die();
-
-    }
-
-    ?>
-</div>
 
 </body>
 </html>
-

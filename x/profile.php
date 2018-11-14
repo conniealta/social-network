@@ -84,6 +84,8 @@ else {
 
 <?php
 include('DB.php');
+include('Post.php');
+
 $username = "";
 // je nachdem, auf welcher Profilseite wir sind, heißt die Profilseite z.B. "profile2.php?username=conniealta"
 $isFollowing = False; //bedeutet, dass man einem Benutzer noch nicht folgt
@@ -148,53 +150,43 @@ if (isset($_GET['username'])) {
 
     if (isset($_POST['post'])) { //prüfen, ob  der Post-Button geklickt wurde und wenn ja:
 
-        $postbody = $_POST['postbody'];
-        $loggedIn_userid = $userid2;  // oben definiert: "$userid2 = $_SESSION['angemeldet'];" das ist die "id" der eingeloggten Person
+        Post::createPost($_POST['postbody'], $userid2, $userid);
+        /*  in "Post.php" -> '$postbody', 'loggedIn_userid', '$profileUserId'
 
-        if (strlen($postbody) > 1000 || strlen($postbody) < 1) {
-            die('Inkorrekte Länge!');
-        }
-        if ($loggedIn_userid == $userid) { //wenn die eingeloggte Person auf ihrer eigenen Profilseite ist, dann darf sie Einträge posten
-            DB::query('INSERT INTO posts VALUES (\'\', :postbody, NOW(), :userid, 0)', array(':postbody'=>$postbody, ':userid'=>$userid));
-        }
-        // -> '\'= die erste Spalte in der Datenbanktabelle ("id"); NOW() = das ist eine Funktion, die das aktuelle Datum und Uhrzeit anzeigt; '0'= die Standardanzahl der "Likes"
-        else {
-            die('Falscher Benutzer!');
-        }
+        --> die "$_POST['postbody'], $userid2, $userid" werden dann an die Parameter in "Post.php" übergeben
+
+        "$userid2 = $_SESSION['angemeldet'];" (oben definiert) -> das ist die "id" der eingeloggten Person
+        $userid = die 'id' der Person, auf deren Profilseite die eingeloggte Person ist
+
+       --> durch die Übertragung ($userid2 -> $loggedIn_userid etc.)  darf  die eingeloggte Person nur auf ihrer eigenen Profilseite posten
+        */
 
     }
 
     if (isset($_GET['postid'])) {
-        if (!DB::query('SELECT user_id FROM post_likes WHERE post_id=:postid AND user_id=:userid', array(':postid'=>$_GET['postid'], ':userid'=>$followerid))) {
-            //wenn folgendes nicht der Fall ist: der Benutzer hat den Post bereits geliked, dann wird der Code ausgeführt:
-                DB::query('UPDATE posts SET likes=likes+1 WHERE id=:postid', array(':postid' => $_GET['postid']));
-                //wo die Post-"id" in der Datenbank gleich die ":postid" ist, die dem URL übergeben wird, wenn man auf den Like-Button klickt
-                DB::query('INSERT INTO post_likes VALUES (\'\',:postid, :userid)', array(':postid' => $_GET['postid'], ':userid' => $followerid));
-                //das zeigt ob die eingeloggte Person (followerid) den Post geliked hat
-        }
-        else {
-            echo 'Already liked';
-        }
+        Post::likePost($_GET['postid'], $followerid);
     }
+    /*  in "Post.php" -> '$postid', '$likerId'
+     --> die "$_GET['postid'], $followerid" werden dann an die Parameter in "Post.php" übergeben
 
-    $dbposts = DB::query('SELECT * FROM posts WHERE user_id=:userid ORDER BY id DESC', array(':userid'=>$userid));
-    $posts = "";
-    foreach($dbposts as $p) {
-        $posts .= htmlspecialchars($p['body'])."
-          <form action='profile.php?username=$username&postid=".$p['id']."' method='post'>
-             <input type='submit' name='like' value='Like'>
-          </form>
-       <hr /></br />";
-    }
-    /* $p = ein Array mit den Datenbankeinträgen: z.B. --> Array ([id]=>1 [0]=>1 [body]=>Hello [1]=>Hello [posted_at]=>2018-11-08 17:37:23 ...)
-    $p[body] = unser Post wird bei "body" in der Datenbanktabelle gespeichert --> mit dieser Funktion sehen wir nur den Inhalt des Posts (nicht id, Datum, etc.)
-    $posts = "" -> zunächst leer Array
-    "<hr />" = horizontale Linie
-    ".=" (->  $txt1 = "Hello"; $txt2 = " world!"; $txt1 .= $txt2; --> Hello world)
-    htmlspecialchars = wandelt Sonderzeichen in HTML-Codes um
-    postid = das ist die "id" des jeweiligen Posteintrag
-    if (isset($_GET['postid']) -> prüfen, ob der Like-Button geklickt wurde, wenn ja
+    $followerid = die eingeloggte Person
+    $likerid = die Person, die den Post geliked hat
+    --> durch die Übertragung ($followerid -> $likerid)  kann man sehen, ob die eingeloggte Person den Post geliked hat
+     */
+
+
+
+    $posts = Post::displayPosts($userid, $username, $followerid);
+    /*
+    $followerid -> $loggedIn_userid etc.  (Übertragung in Post.php)
+
+    die Variable "$posts" ist gleich der "return-Wert" von dieser Methode
+
+    in Post.php -> return $posts;
+     "return" --> dies gibt die Variable '$posts = "";' zurück , die all den HTML-Code und alle Posts beinhaltet
     */
+
+
 
 } else {
     die('User not found!');
